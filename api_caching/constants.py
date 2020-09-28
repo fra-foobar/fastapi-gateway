@@ -1,0 +1,2 @@
+DEFAULT_CACHING_TOOL = "redis"
+REDIS_CACHING_TOOL = "redis"
