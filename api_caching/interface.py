@@ -1,4 +1,8 @@
 from api_caching.settings import cache_module as cache
+from api_caching.exceptions import NoCacheFoundException
+
+if cache is None:
+    raise NoCacheFoundException()
 
 
 async def get(key: str):

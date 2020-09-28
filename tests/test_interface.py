@@ -1,5 +1,14 @@
 import asyncio
-from tests.conftest import redis_db, key, keys_with_placeholder, value_string, value_dict
+import pytest
+
+
+def test_no_cache_available(redis_db, redis_db_missing_port):
+    from api_caching.exceptions import NoCacheFoundException
+    with pytest.raises(NoCacheFoundException):
+        from api_caching.interface import get, set
+        asyncio.run(set("key", "value_string"))
+        returned_value = asyncio.run(get("key"))
+        assert returned_value == "value_string"
 
 
 def test_get_set_string(redis_db, key, value_string):

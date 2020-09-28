@@ -1,11 +1,19 @@
 import pytest
 import string
 import random
-
+import sys
 
 @pytest.fixture
 def redis_db(monkeypatch):
     monkeypatch.setenv("REDIS_DB", "2")
+
+
+@pytest.fixture
+def redis_db_missing_port(monkeypatch):
+    yield monkeypatch.setenv("REDIS_PORT", "1234")
+    monkeypatch.delenv("REDIS_PORT")
+    # force settings re-import in order to set up a new working redis connection
+    del sys.modules["api_caching.settings"]
 
 
 @pytest.fixture
@@ -46,6 +54,6 @@ def pytest_sessionfinish(session, exitstatus):
     """
     from api_caching.settings import use_redis
     if use_redis:
-        from api_caching.redis.api import flush_db
+        from .helpers import flush_db
         import asyncio
         asyncio.run(flush_db())
