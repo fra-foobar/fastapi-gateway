@@ -1,13 +1,7 @@
-import hashlib
-
-
-def string_to_hash(string: str):
-    return hashlib.md5(string.encode()).hexdigest()
+from urllib.parse import urlparse
 
 
 def get_key_from_url(url: str):
-    splitted_url = url.split("/")
-    key = ""
-    for path_segment in splitted_url:
-        key += string_to_hash(path_segment)
+    url_path = urlparse(url).path.strip("/")
+    key = url_path.replace("/", ":")
     return key

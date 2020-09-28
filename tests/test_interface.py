@@ -4,7 +4,6 @@ from tests.conftest import redis_db, key, keys_with_placeholder, value_string, v
 
 def test_get_set_string(redis_db, key, value_string):
     from api_caching.interface import get, set
-    print(key, value_string)
     asyncio.run(set(key, value_string))
     returned_value = asyncio.run(get(key))
     assert returned_value == value_string
