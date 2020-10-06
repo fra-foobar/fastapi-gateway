@@ -1,5 +1,5 @@
 import aioredis
-from api_caching.settings import REDIS_URL
+from cache.settings import REDIS_URL
 
 
 async def flush_db():

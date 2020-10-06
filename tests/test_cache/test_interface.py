@@ -3,30 +3,30 @@ import pytest
 
 
 def test_no_cache_available(redis_db, redis_db_missing_port):
-    from api_caching.exceptions import NoCacheFoundException
+    from cache.exceptions import NoCacheFoundException
     with pytest.raises(NoCacheFoundException):
-        from api_caching.interface import get, set
+        from cache.interface import get, set
         asyncio.run(set("key", "value_string"))
         returned_value = asyncio.run(get("key"))
         assert returned_value == "value_string"
 
 
 def test_get_set_string(redis_db, key, value_string):
-    from api_caching.interface import get, set
+    from cache.interface import get, set
     asyncio.run(set(key, value_string))
     returned_value = asyncio.run(get(key))
     assert returned_value == value_string
 
 
 def test_get_set_dict(redis_db, key, value_dict):
-    from api_caching.interface import get, set
+    from cache.interface import get, set
     asyncio.run(set(key, value_dict))
     returned_value = asyncio.run(get(key))
     assert returned_value == value_dict
 
 
 def test_delete_string(redis_db, key, value_string):
-    from api_caching.interface import delete, get, set
+    from cache.interface import delete, get, set
     asyncio.run(set(key, value_string))
     returned_value = asyncio.run(get(key))
     assert returned_value == value_string
@@ -36,7 +36,7 @@ def test_delete_string(redis_db, key, value_string):
 
 
 def test_delete_dict(redis_db, key, value_dict):
-    from api_caching.interface import delete, get, set
+    from cache.interface import delete, get, set
     asyncio.run(set(key, value_dict))
     returned_value = asyncio.run(get(key))
     assert returned_value == value_dict
@@ -46,7 +46,7 @@ def test_delete_dict(redis_db, key, value_dict):
 
 
 def test_delete_matching_string(redis_db, key, keys_with_placeholder, value_string):
-    from api_caching.interface import delete_matching, get, set
+    from cache.interface import delete_matching, get, set
     keys = [key_with_placeholder.replace('<placeholder>', key) for key_with_placeholder in keys_with_placeholder]
     keys_to_leave = [
         key_with_placeholder.replace('<placeholder>', 'leave_this_') for key_with_placeholder in keys_with_placeholder

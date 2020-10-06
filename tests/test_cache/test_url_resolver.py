@@ -45,7 +45,7 @@ domains_only_urls = [
 
 
 def test_resolve_empty_url(redis_db):
-    from api_caching.url_resolver import get_key_from_url
+    from cache.url_resolver import get_key_from_url
     url = ""
     key = get_key_from_url(url)
     assert key == ""
@@ -53,21 +53,21 @@ def test_resolve_empty_url(redis_db):
 
 @pytest.mark.parametrize("url", domains_only_urls)
 def test_resolve_empty_path_url(redis_db, url):
-    from api_caching.url_resolver import get_key_from_url
+    from cache.url_resolver import get_key_from_url
     key = get_key_from_url(url)
     assert key == ""
 
 
 @pytest.mark.parametrize("url", static_urls)
 def test_resolve_static_url(redis_db, url):
-    from api_caching.url_resolver import get_key_from_url
+    from cache.url_resolver import get_key_from_url
     key = get_key_from_url(url)
     assert "/" not in key
 
 
 @pytest.mark.parametrize("url", pattern_urls)
 def test_resolve_pattern_url(redis_db, url):
-    from api_caching.url_resolver import get_key_from_url
+    from cache.url_resolver import get_key_from_url
     key = get_key_from_url(url)
     assert "/" not in key
     assert "*" in key

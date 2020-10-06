@@ -1,5 +1,5 @@
-from api_caching.settings import cache_module as cache
-from api_caching.exceptions import NoCacheFoundException
+from cache.settings import cache_module as cache
+from cache.exceptions import NoCacheFoundException
 
 if cache is None:
     raise NoCacheFoundException()
