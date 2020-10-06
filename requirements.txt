@@ -3,6 +3,7 @@ async-timeout==3.0.1
 atomicwrites==1.4.0
 attrs==20.2.0
 colorama==0.4.3
+coverage==5.3
 hiredis==1.1.0
 iniconfig==1.0.1
 numpy==1.19.2
