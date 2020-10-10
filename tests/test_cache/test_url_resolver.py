@@ -43,6 +43,12 @@ domains_only_urls = [
     "https://domain.com",
 ]
 
+url_query_params = [
+    "q1=iojoi3j12io3j12oi3j",
+    "q1=iojoi3j12io3j12oi3j&q2=2oi3j",
+    "q1=iojoi3j12io3j12oi3j&q2=2oi3j&q3=kfjahsdflkjsahd",
+]
+
 
 def test_resolve_empty_url(redis_db):
     from cache.url_resolver import get_key_from_url
@@ -71,3 +77,13 @@ def test_resolve_pattern_url(redis_db, url):
     key = get_key_from_url(url)
     assert "/" not in key
     assert "*" in key
+
+
+@pytest.mark.parametrize("url", static_urls)
+@pytest.mark.parametrize("query_params", url_query_params)
+def test_resolve_query_params_url(redis_db, url, query_params):
+    from cache.url_resolver import get_key_from_url
+    url_with_query_params = url + "?" + query_params
+    key = get_key_from_url(url_with_query_params)
+    assert "/" not in key
+    assert key.split(":")[-1] == query_params

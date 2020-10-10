@@ -3,6 +3,19 @@ import string
 import random
 import sys
 
+
+@pytest.fixture
+def api_response():
+    return {"key1": "value1", "key2": [1, 32, 42, 12, 32], "key3": "value 2"}
+
+
+@pytest.fixture
+def api_call(api_response):
+    def f():
+        return api_response
+    return f
+
+
 @pytest.fixture
 def redis_db(monkeypatch):
     monkeypatch.setenv("REDIS_DB", "2")
